@@ -92,4 +92,4 @@ LABEL org.label-schema.license="https://mran.microsoft.com/faq/#licensing" \
 	org.label-schema.schema-version="rc1" \
 	maintainer="Daniel Nüst <daniel.nuest@uni-muenster.de>"
 
-CMD ["/usr/bin/bash", "./anaconda-tests.sh"]
+CMD ["/bin/bash", "./anaconda-tests.sh"]
