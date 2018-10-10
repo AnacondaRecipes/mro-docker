@@ -38,17 +38,19 @@ RUN apt-get update \
 		libpango-1.0-0 \
 		libxt6 \
 		libsm6 \
+                binutils \
+                perl \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Use major and minor vars to re-use them in non-interactive installation script
 ENV MRO_VERSION_MAJOR 3
 ENV MRO_VERSION_MINOR 5
-ENV MRO_VERSION_BUGFIX 0
+ENV MRO_VERSION_BUGFIX 1
 ENV MRO_VERSION $MRO_VERSION_MAJOR.$MRO_VERSION_MINOR.$MRO_VERSION_BUGFIX
 
 WORKDIR /home/docker
 
-## Donwload and install MRO & MKL, see https://mran.microsoft.com/download https://mran.blob.core.windows.net/install/mro/3.5.0/microsoft-r-open-3.5.0.tar.gz
+## Donwload and install MRO & MKL, see https://mran.microsoft.com/download https://mran.blob.core.windows.net/install/mro/3.5.1/microsoft-r-open-3.5.1.tar.gz
 RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/microsoft-r-open-$MRO_VERSION.tar.gz \
 	&& tar -xzf microsoft-r-open-$MRO_VERSION.tar.gz
 WORKDIR /home/docker/microsoft-r-open
@@ -68,6 +70,17 @@ RUN echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> 
 # Add demo script
 COPY demo.R demo.R
 
+# Add hardening-check script
+COPY hardening-check hardening-check
+
+# Add benchmarking script from http://r.research.att.com/benchmarks/R-benchmark-25.R
+COPY R-benchmark-25.R R-benchmark-25.R
+
+# And another one
+COPY MASS-ex.R MASS-ex.R
+
+COPY anaconda-tests.sh anaconda-tests.sh
+
 # Add image metadata
 LABEL org.label-schema.license="https://mran.microsoft.com/faq/#licensing" \
     org.label-schema.vendor="Microsoft Corporation, Dockerfile provided by Daniel Nüst" \
@@ -79,4 +92,4 @@ LABEL org.label-schema.license="https://mran.microsoft.com/faq/#licensing" \
 	org.label-schema.schema-version="rc1" \
 	maintainer="Daniel Nüst <daniel.nuest@uni-muenster.de>"
 
-CMD ["/usr/bin/R", "--no-save"]
+CMD ["/usr/bin/bash", "./anaconda-tests.sh"]
