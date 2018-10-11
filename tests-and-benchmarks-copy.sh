@@ -1,14 +1,18 @@
 #!/usr/bin/env bash
 
+RS="mro-3.5.1 r-3.5.1 cran-3.5.1"
+# RS="cran-3.5.1"
+# RS="mro-3.5.1"
+
 [[ -d tests-and-benchmarks ]] || exit 1
 
-RS="mro-3.5.1 r-3.5.1 cran-3.5.1"
-# for R in mro-3.2.5 mro-3.4.4 mro-3.5.1 r-3.5.1 cran-3.5.1; do
+# NOCACHE="--no-cache"
+
 for R in ${RS}; do
   cp -Rf tests-and-benchmarks/* ${R}
   git add ${R}
   pushd ${R}
-    docker build -f ./Dockerfile -t ${R} .
+    docker build ${NOCACHE} -f ./Dockerfile -t ${R} .
   popd
 done
 
@@ -20,5 +24,5 @@ for R in ${RS}; do
   echo "*********************************"
   echo ""
   echo ""
-  docker run ${R} 2>&1 | tee ~/gd.cio/r-language/${R}.benchmark
+  docker run ${R} 2>&1 | tee tests-and-benchmarks/${R}.benchmark
 done
