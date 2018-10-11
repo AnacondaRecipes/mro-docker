@@ -7,7 +7,7 @@ FROM continuumio/miniconda3:latest
 RUN apt-get update && apt-get install -y binutils
 RUN . /opt/conda/bin/activate
 RUN conda update -y --all
-RUN conda install -y r-base=3.5.1 || true
+RUN conda install -y -c r -c https://repo.anaconda.com/pkgs/main r=3.5.1 r-suppdists || true
 
 # Add demo script
 COPY demo.R demo.R

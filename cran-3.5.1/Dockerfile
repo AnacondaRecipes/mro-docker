@@ -57,6 +57,7 @@ RUN apt-get update \
 	&& rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
 	&& rm -rf /var/lib/apt/lists/*
 
+RUN echo "install.packages(\"SuppDists\", repos=\"https://cran.r-project.org\")" | R --no-save
 
 # Add demo script
 COPY demo.R demo.R

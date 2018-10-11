@@ -39,6 +39,8 @@ RUN apt-get update \
 		libxt6 \
 		libsm6 \
                 binutils \
+                gcc-5 \
+                make \
                 perl \
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -51,8 +53,10 @@ ENV MRO_VERSION $MRO_VERSION_MAJOR.$MRO_VERSION_MINOR.$MRO_VERSION_BUGFIX
 WORKDIR /home/docker
 
 ## Donwload and install MRO & MKL, see https://mran.microsoft.com/download https://mran.blob.core.windows.net/install/mro/3.5.1/microsoft-r-open-3.5.1.tar.gz
-RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/microsoft-r-open-$MRO_VERSION.tar.gz \
-	&& tar -xzf microsoft-r-open-$MRO_VERSION.tar.gz
+COPY microsoft-r-open-3.5.1.tar.gz microsoft-r-open-3.5.1.tar.gz
+#RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/microsoft-r-open-$MRO_VERSION.tar.gz \
+#	&& tar -xzf microsoft-r-open-$MRO_VERSION.tar.gz
+tar -xzf microsoft-r-open-$MRO_VERSION.tar.gz
 WORKDIR /home/docker/microsoft-r-open
 RUN  ./install.sh -a -u
 
@@ -66,6 +70,8 @@ COPY MKL_EULA.txt MKL_EULA.txt
 COPY MRO_EULA.txt MRO_EULA.txt
 RUN echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site && \
 	echo 'cat("\n", readLines("/home/docker/MRO_EULA.txt"), "\n", sep="\n")' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site
+
+RUN echo "install.packages(\"SuppDists\", repos=\"https://mran.microsoft.com/snapshot/2018-08-01\")" | R --no-save
 
 # Add demo script
 COPY demo.R demo.R

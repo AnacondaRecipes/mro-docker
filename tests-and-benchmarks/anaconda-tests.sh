@@ -9,6 +9,7 @@ echo "#############"
 echo "# Hardening #"
 echo "#############"
 echo ""
+echo "Checking R binary :: ${REXE}"
 ./hardening-check ${REXE}
 
 echo ""

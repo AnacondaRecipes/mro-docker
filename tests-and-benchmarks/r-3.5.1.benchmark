@@ -1,0 +1,72 @@
+#############
+# Hardening #
+#############
+
+Checking R binary :: /opt/conda/lib/R/bin/exec/R
+/opt/conda/lib/R/bin/exec/R:
+  Position Independent Executable (PIE): yes
+  Stack Smashing Protector (SSP): no (not found)
+  Fortified Functions (FFs): unknown (no protected functions found)
+  String Format Security Functions (SFSFs): unknown (not supported)
+  Non-Executable Stack (NES): yes
+  Non-Executable Heap (NEH): no (not found)
+  Relocation Read-Only (RELRO): yes
+  Immediate Symbol Binding (NOW): yes
+
+####################
+# R-benchmark-25.R #
+####################
+
+Loading required package: Matrix
+Loading required package: SuppDists
+Warning messages:
+1: In remove("a", "b") : object 'a' not found
+2: In remove("a", "b") : object 'b' not found
+
+
+   R Benchmark 2.5
+   ===============
+Number of times each test is run__________________________:  3
+
+   I. Matrix calculation
+   ---------------------
+Creation, transp., deformation of a 2500x2500 matrix (sec):  1.029 
+2400x2400 normal distributed random matrix ^1000____ (sec):  0.542333333333333 
+Sorting of 7,000,000 random values__________________ (sec):  0.701 
+2800x2800 cross-product matrix (b = a' * a)_________ (sec):  0.420000000000001 
+Linear regr. over a 3000x3000 matrix (c = a \ b')___ (sec):  0.246333333333332 
+                      --------------------------------------------
+                 Trimmed geom. mean (2 extremes eliminated):  0.542514315067483 
+
+   II. Matrix functions
+   --------------------
+FFT over 2,400,000 random values____________________ (sec):  0.348 
+Eigenvalues of a 640x640 random matrix______________ (sec):  0.281666666666666 
+Determinant of a 2500x2500 random matrix____________ (sec):  0.232333333333333 
+Cholesky decomposition of a 3000x3000 matrix________ (sec):  0.249 
+Inverse of a 1600x1600 random matrix________________ (sec):  0.201666666666667 
+                      --------------------------------------------
+                Trimmed geom. mean (2 extremes eliminated):  0.253521876992819 
+
+   III. Programmation
+   ------------------
+3,500,000 Fibonacci numbers calculation (vector calc)(sec):  0.484333333333333 
+Creation of a 3000x3000 Hilbert matrix (matrix calc) (sec):  0.422333333333337 
+Grand common divisors of 400,000 pairs (recursion)__ (sec):  0.375000000000005 
+Creation of a 500x500 Toeplitz matrix (loops)_______ (sec):  0.0710000000000003 
+Escoufier's method on a 45x45 matrix (mixed)________ (sec):  0.247999999999998 
+                      --------------------------------------------
+                Trimmed geom. mean (2 extremes eliminated):  0.339922127494415 
+
+
+Total time for all 15 tests_________________________ (sec):  5.85200000000001 
+Overall mean (sum of I, II and III trimmed means/3)_ (sec):  0.360248371833025 
+                      --- End of test ---
+
+#############
+# MASS-ex.R #
+#############
+
+real 0.15
+user 0.12
+sys 0.01
